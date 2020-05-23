@@ -1,7 +1,0 @@
-:root {
-  --green: green;
-}
-
-body {
-  background: var(--green);
-}
