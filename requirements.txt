@@ -1,0 +1,13 @@
+Webpack
+  Babel
+  Postcss
+  Eslint
+  2 modes
+    - Dev
+      Dev server, SourceMap, Eslint, Not minified JS & CSS
+    - Prod
+      MInified code
+Git
+
+
+lesson 13
