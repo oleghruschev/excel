@@ -10,13 +10,11 @@ class Dom {
       this.$el.innerHTML = html
       return this
     }
-
     return this.$el.outerHTML.trim()
   }
 
   clear() {
     this.html('')
-
     return this
   }
 
@@ -41,18 +39,39 @@ class Dom {
 
     return this
   }
+
+  get data() {
+    return this.$el.dataset
+  }
+
+  closest(selector) {
+    return $(this.$el.closest(selector))
+  }
+
+  getCoords() {
+    return this.$el.getBoundingClientRect()
+  }
+
+  findAll(selector) {
+    return this.$el.querySelectorAll(selector)
+  }
+
+  css(styles) {
+    for (const [key, value] of Object.entries(styles)) {
+      this.$el.style[key] = value
+    }
+  }
 }
 
+// event.target
 export function $(selector) {
   return new Dom(selector)
 }
 
 $.create = (tagName, classes = '') => {
   const el = document.createElement(tagName)
-
   if (classes) {
     el.classList.add(classes)
   }
-
   return $(el)
 }
