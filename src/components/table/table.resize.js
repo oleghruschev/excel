@@ -50,6 +50,7 @@ export function resizeHandler($root, event) {
       $parent.css({ height: `${value}px` });
       $resizer.css({
         opacity: 0,
+        right: 0,
         bottom: 0
       })
     }

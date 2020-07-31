@@ -13,6 +13,14 @@ class Dom {
     return this.$el.outerHTML.trim()
   }
 
+  text(value) {
+    if (typeof value === 'string') {
+      this.$el.textContent=value
+      return this
+    }
+    return this.$el.textContent
+  }
+
   clear() {
     this.html('')
     return this
@@ -52,6 +60,10 @@ class Dom {
     return this.$el.getBoundingClientRect()
   }
 
+  find(selector) {
+    return $(this.$el.querySelector(selector))
+  }
+
   findAll(selector) {
     return this.$el.querySelectorAll(selector)
   }
@@ -60,6 +72,32 @@ class Dom {
     for (const [key, value] of Object.entries(styles)) {
       this.$el.style[key] = value
     }
+  }
+
+  id(parse) {
+    if (parse) {
+      const [row, col] = this.id().split(':')
+
+      return {
+        row: +row,
+        col: + col
+      }
+    }
+
+    return this.data.id
+  }
+
+  addClass(className) {
+    this.$el.classList.add(className)
+  }
+
+  removeClass(className) {
+    this.$el.classList.remove(className)
+  }
+
+  focus() {
+    this.$el.focus()
+    return this
   }
 }
 
