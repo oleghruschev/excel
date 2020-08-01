@@ -5,6 +5,7 @@ export class Excel {
   constructor(selector, options) {
     this.$el = $(selector)
     this.components = options.components || []
+    this.store = options.store
     this.emmiter = new Emmiter()
   }
 
@@ -12,7 +13,8 @@ export class Excel {
     const $root = $.create('div', 'excel')
 
     const componentOptions = {
-      emmiter: this.emmiter
+      emmiter: this.emmiter,
+      store: this.store
     }
 
     this.components = this.components.map(Component => {

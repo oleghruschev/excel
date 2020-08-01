@@ -1,5 +1,6 @@
 import { ExcelComponent } from '@core/ExcelComponent';
 import { $ } from '@core/dom';
+import {tableResize} from '@/redux/actions'
 
 import { createTable } from './table.template';
 import { resizeHandler } from './table.resize'
@@ -27,17 +28,29 @@ export class Table extends ExcelComponent {
     const $cell = this.$root.find(['[data-id="0:0"]'])
     this.selectCell($cell)
 
-    this.$subscribe('FORMULA_INPUT', text => {
+    this.$on('FORMULA_INPUT', text => {
       this.selection.current.text(text)
     })
-    this.$subscribe('FORMULA_HANDLE_ENTER', () => {
+
+    this.$on('FORMULA_HANDLE_ENTER', () => {
       this.selection.current.focus()
     })
+
+    this.$subscribe(state => console.log('---table state---', state))
+  }
+
+  async resizeTable(event) {
+    try {
+      const data = await resizeHandler(this.$root, event)
+      this.$dispatch(tableResize(data))
+    } catch (error) {
+      console.error('resize table error', error)
+    }
   }
 
   onMousedown(event) {
     if (shouldResize(event)) {
-      resizeHandler(this.$root, event)
+      this.resizeTable(event)
     } else if (isCell(event)) {
       const $target = $(event.target)
 
@@ -49,7 +62,7 @@ export class Table extends ExcelComponent {
         this.selection.selectGroup($cells)
         console.log('$cells', $cells)
       } else {
-        this.selection.select($target)
+        this.selectCell($target)
       }
     }
   }
@@ -76,11 +89,12 @@ export class Table extends ExcelComponent {
 
   selectCell($cell) {
     this.selection.select($cell)
-    this.$dispatch('TABLE_CELL_SELECT', $cell)
+    this.$emmit('TABLE_CELL_SELECT', $cell)
+    this.$dispatch({type: 'TEST'})
   }
 
   onInput(event) {
-    this.$dispatch('TABLE_CELL_INPUT', $(event.target))
+    this.$emmit('TABLE_CELL_INPUT', $(event.target))
   }
 
   toHTML() {

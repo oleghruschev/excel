@@ -1,4 +1,4 @@
-import {ExcelComponent} from '@core/ExcelComponent'
+import { ExcelComponent } from '@core/ExcelComponent'
 import { $ } from '@core/dom'
 
 export class Formula extends ExcelComponent {
@@ -15,13 +15,15 @@ export class Formula extends ExcelComponent {
   init() {
     super.init()
 
-    this.$subscribe('TABLE_CELL_SELECT', $cell => {
+    this.$on('TABLE_CELL_SELECT', $cell => {
       this.$root.find('#formula').text($cell.text())
     })
 
-    this.$subscribe('TABLE_CELL_INPUT', $cell => {
+    this.$on('TABLE_CELL_INPUT', $cell => {
       this.$root.find('#formula').text($cell.text())
     })
+
+    this.$subscribe(state => console.log('---formula state---', state))
   }
 
   toHTML() {
@@ -32,7 +34,7 @@ export class Formula extends ExcelComponent {
   }
 
   onInput() {
-    this.$dispatch('FORMULA_INPUT', $(event.target).text())
+    this.$emmit('FORMULA_INPUT', $(event.target).text())
   }
 
   onKeydown(event) {
@@ -40,7 +42,7 @@ export class Formula extends ExcelComponent {
 
     if (keys.includes(event.key)) {
       event.preventDefault()
-      this.$dispatch('FORMULA_HANDLE_ENTER')
+      this.$emmit('FORMULA_HANDLE_ENTER')
     }
   }
 }
