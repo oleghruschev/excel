@@ -45,6 +45,6 @@ export class CreateStore {
   }
 
   getState() {
-    return this.state
+    return JSON.parse(JSON.stringify(this.state))
   }
 }

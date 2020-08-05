@@ -1,6 +1,6 @@
 import { ExcelComponent } from '@core/ExcelComponent';
 import { $ } from '@core/dom';
-import {tableResize} from '@/redux/actions'
+import * as actions from '@/redux/actions'
 
 import { createTable } from './table.template';
 import { resizeHandler } from './table.resize'
@@ -30,19 +30,18 @@ export class Table extends ExcelComponent {
 
     this.$on('FORMULA_INPUT', text => {
       this.selection.current.text(text)
+      this.updateTextInStore(text)
     })
 
     this.$on('FORMULA_HANDLE_ENTER', () => {
       this.selection.current.focus()
     })
-
-    this.$subscribe(state => console.log('---table state---', state))
   }
 
   async resizeTable(event) {
     try {
       const data = await resizeHandler(this.$root, event)
-      this.$dispatch(tableResize(data))
+      this.$dispatch(actions.tableResize(data))
     } catch (error) {
       console.error('resize table error', error)
     }
@@ -90,15 +89,22 @@ export class Table extends ExcelComponent {
   selectCell($cell) {
     this.selection.select($cell)
     this.$emmit('TABLE_CELL_SELECT', $cell)
-    this.$dispatch({type: 'TEST'})
+  }
+
+  updateTextInStore(value) {
+    this.$dispatch(actions.changeText({
+      id: this.selection.current.id(),
+      value
+    }))
   }
 
   onInput(event) {
-    this.$emmit('TABLE_CELL_INPUT', $(event.target))
+    // this.$emmit('TABLE_CELL_INPUT', $(event.target))
+    this.updateTextInStore($(event.target).text())
   }
 
   toHTML() {
-    return createTable();
+    return createTable(20, this.store.getState());
   }
 }
 

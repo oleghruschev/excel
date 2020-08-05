@@ -2,11 +2,11 @@ import { $ } from '@core/dom';
 
 export function resizeHandler($root, event) {
   return new Promise(resolve => {
-    const typeResize = event.target.dataset.resize;
+    const type = event.target.dataset.resize;
     const $resizer = $(event.target);
     const $parent = $resizer.closest('[data-type="resizable"]');
     const coords = $parent.getCoords();
-    const sideProp = typeResize === 'col' ? 'bottom' : 'right'
+    const sideProp = type === 'col' ? 'bottom' : 'right'
     let value = 0
 
     $resizer.css({
@@ -19,7 +19,7 @@ export function resizeHandler($root, event) {
 
 
     document.onmousemove = (e) => {
-      if (typeResize === 'col') {
+      if (type === 'col') {
         const delta = e.pageX - coords.right;
         value = coords.width + delta;
         $resizer.css({
@@ -36,7 +36,7 @@ export function resizeHandler($root, event) {
     document.onmouseup = () => {
       document.onmousemove = null;
       document.onmouseup = null
-      const isColResize = typeResize === 'col'
+      const isColResize = type === 'col'
 
       if (isColResize) {
         $parent.css({ width: `${value}px` });
@@ -52,7 +52,7 @@ export function resizeHandler($root, event) {
         $parent.css({ height: `${value}px` });
       }
 
-      resolve({value, id: isColResize ? $parent.data.col : null})
+      resolve({type, value, id: $parent.data[type]})
 
       $resizer.css({
         opacity: 0,

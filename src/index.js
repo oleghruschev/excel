@@ -11,7 +11,18 @@ import './scss/index.scss'
 
 const EXCEL_STATE = 'excelState'
 
-const store = new CreateStore(rootReducer, storage(EXCEL_STATE))
+const INITIAL_STATE = {
+  colState: {},
+  rowState: {},
+  dataState: {},
+  currentText: '',
+
+}
+
+const store = new CreateStore(
+    rootReducer,
+    storage(EXCEL_STATE) || INITIAL_STATE
+)
 
 store.subscribe(state => {
   console.log('-App state-', state)
