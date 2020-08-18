@@ -6,6 +6,7 @@ import {Table} from '@/components/table/Table'
 import {CreateStore} from '@/redux/createStore'
 import {rootReducer} from '@/redux/rootReducer'
 import {storage} from '@/core/utils'
+import {defaultStyles} from '@/constants'
 
 import './scss/index.scss'
 
@@ -16,6 +17,7 @@ const INITIAL_STATE = {
   rowState: {},
   dataState: {},
   currentText: '',
+  currentStyles: defaultStyles
 
 }
 

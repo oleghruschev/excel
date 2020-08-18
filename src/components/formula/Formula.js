@@ -37,7 +37,7 @@ export class Formula extends ExcelComponent {
   }
 
   onInput() {
-    this.$emmit('FORMULA_INPUT', $(event.target).text())
+    this.$emit('FORMULA_INPUT', $(event.target).text())
   }
 
   onKeydown(event) {
@@ -45,7 +45,7 @@ export class Formula extends ExcelComponent {
 
     if (keys.includes(event.key)) {
       event.preventDefault()
-      this.$emmit('FORMULA_HANDLE_ENTER')
+      this.$emit('FORMULA_HANDLE_ENTER')
     }
   }
 

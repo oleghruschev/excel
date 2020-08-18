@@ -1,4 +1,4 @@
-import {TABLE_RESIZE, CHANGE_TEXT} from '@/redux/types'
+import {TABLE_RESIZE, CHANGE_TEXT, CHANGE_STYLES} from '@/redux/types'
 
 export function rootReducer(state, { type, data }) {
   const dataType = data ? data.type : ''
@@ -17,6 +17,9 @@ export function rootReducer(state, { type, data }) {
         currentText: data.value,
         dataState: { ...state.dataState, [data.id]: data.value }
       }
+
+    case CHANGE_STYLES:
+      return {...state, currentStyles: data}
 
     default:
       return state

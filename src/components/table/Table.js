@@ -1,6 +1,7 @@
 import { ExcelComponent } from '@core/ExcelComponent';
 import { $ } from '@core/dom';
 import * as actions from '@/redux/actions'
+import { defaultStyles } from '@/constants'
 
 import { createTable } from './table.template';
 import { resizeHandler } from './table.resize'
@@ -35,6 +36,10 @@ export class Table extends ExcelComponent {
 
     this.$on('FORMULA_HANDLE_ENTER', () => {
       this.selection.current.focus()
+    })
+
+    this.$on('TOOLBAR_APPLY_STYLE', (style) => {
+      this.selection.applyStyle(style)
     })
   }
 
@@ -88,7 +93,9 @@ export class Table extends ExcelComponent {
 
   selectCell($cell) {
     this.selection.select($cell)
-    this.$emmit('TABLE_CELL_SELECT', $cell)
+    this.$emit('TABLE_CELL_SELECT', $cell)
+    const styles = $cell.getStyles(Object.keys(defaultStyles))
+    this.$dispatch(actions.changeStyles(styles))
   }
 
   updateTextInStore(value) {
@@ -99,7 +106,7 @@ export class Table extends ExcelComponent {
   }
 
   onInput(event) {
-    // this.$emmit('TABLE_CELL_INPUT', $(event.target))
+    // this.$emit('TABLE_CELL_INPUT', $(event.target))
     this.updateTextInStore($(event.target).text())
   }
 

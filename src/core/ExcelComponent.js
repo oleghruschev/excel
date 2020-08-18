@@ -4,7 +4,7 @@ export class ExcelComponent extends DomListener {
   constructor($root, options = {}) {
     super($root, options.listeners)
     this.name = options.name
-    this.emmiter = options.emmiter
+    this.emiter = options.emiter
     this.subscribe = options.subscribe || []
     this.store = options.store
     this.unsubscibes = []
@@ -23,13 +23,13 @@ export class ExcelComponent extends DomListener {
 
   // подписываемся на события event
   $on(event, fn) {
-    const unsub = this.emmiter.subscribe(event, fn)
+    const unsub = this.emiter.subscribe(event, fn)
     this.unsubscibes.push(unsub)
   }
 
   // уведомляем слушателей про события event
-  $emmit(event, ...args) {
-    this.emmiter.emmit(event, ...args)
+  $emit(event, ...args) {
+    this.emiter.emit(event, ...args)
   }
 
   $dispatch(action) {

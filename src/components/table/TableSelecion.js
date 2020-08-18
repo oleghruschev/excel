@@ -16,6 +16,7 @@ export class TableSeclection {
 
   clear() {
     this.group.forEach($el => $el.removeClass(TableSeclection.className))
+    this.group = []
   }
 
   selectGroup(group = []) {
@@ -23,5 +24,9 @@ export class TableSeclection {
 
     this.group = group
     this.group.forEach($el => $el.addClass(TableSeclection.className))
+  }
+
+  applyStyle(style) {
+    this.group.forEach($el => $el.css(style))
   }
 }

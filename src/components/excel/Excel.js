@@ -1,5 +1,5 @@
-import {$} from '@core/dom'
-import {Emmiter} from '@core/Emmiter'
+import { $ } from '@core/dom'
+import { Emmiter } from '@core/Emmiter'
 import { StoreSubscriber } from '@/core/StoreSubscriber'
 
 export class Excel {
@@ -7,7 +7,7 @@ export class Excel {
     this.$el = $(selector)
     this.components = options.components || []
     this.store = options.store
-    this.emmiter = new Emmiter()
+    this.emiter = new Emmiter()
     this.subscriber = new StoreSubscriber(this.store)
   }
 
@@ -15,7 +15,7 @@ export class Excel {
     const $root = $.create('div', 'excel')
 
     const componentOptions = {
-      emmiter: this.emmiter,
+      emiter: this.emiter,
       store: this.store
     }
 
