@@ -36,7 +36,7 @@ export class Formula extends ExcelComponent {
     `
   }
 
-  onInput() {
+  onInput(event) {
     this.$emit('FORMULA_INPUT', $(event.target).text())
   }
 

@@ -13,6 +13,7 @@ import './scss/index.scss'
 const EXCEL_STATE = 'excelState'
 
 const DEFAULT_STATE = {
+  title: 'Новая таблица',
   colState: {},
   rowState: {},
   dataState: {},
