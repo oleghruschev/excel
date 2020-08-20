@@ -12,18 +12,27 @@ import './scss/index.scss'
 
 const EXCEL_STATE = 'excelState'
 
-const INITIAL_STATE = {
+const DEFAULT_STATE = {
   colState: {},
   rowState: {},
   dataState: {},
   currentText: '',
-  currentStyles: defaultStyles
-
+  currentStyles: defaultStyles,
+  stylesState: {}
 }
+
+const normalize = state => ({
+  ...state,
+  currentStyles: defaultStyles,
+  currentText: ''
+})
+
+const initialState
+  = storage(EXCEL_STATE) ? normalize(storage(EXCEL_STATE)) : DEFAULT_STATE
 
 const store = new CreateStore(
     rootReducer,
-    storage(EXCEL_STATE) || INITIAL_STATE
+    initialState
 )
 
 store.subscribe(state => {

@@ -1,8 +1,10 @@
 import {TABLE_RESIZE, CHANGE_TEXT, CHANGE_STYLES} from '@/redux/types'
+import { APPLY_STYLE } from './types'
 
 export function rootReducer(state, { type, data }) {
   const dataType = data ? data.type : ''
   const field = `${dataType}State`
+  const stylesState = {}
 
   switch (type) {
     case TABLE_RESIZE:
@@ -20,6 +22,17 @@ export function rootReducer(state, { type, data }) {
 
     case CHANGE_STYLES:
       return {...state, currentStyles: data}
+
+    case APPLY_STYLE:
+      data.ids.forEach(id => {
+        stylesState[id] = {...state.stylesState[id], ...data.value}
+      })
+
+      return {
+        ...state,
+        stylesState: {...state.stylesState, ...stylesState},
+        currentStyles: {...state.currentStyles, ...data.value}
+      }
 
     default:
       return state

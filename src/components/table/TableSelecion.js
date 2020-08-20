@@ -26,6 +26,10 @@ export class TableSeclection {
     this.group.forEach($el => $el.addClass(TableSeclection.className))
   }
 
+  get selectedIds() {
+    return this.group.map($el => $el.id())
+  }
+
   applyStyle(style) {
     this.group.forEach($el => $el.css(style))
   }
