@@ -1,4 +1,4 @@
-import {TABLE_RESIZE, CHANGE_TEXT, CHANGE_STYLES} from '@/redux/types'
+import { TABLE_RESIZE, CHANGE_TEXT, CHANGE_STYLES } from '@/redux/types'
 import { APPLY_STYLE } from './types'
 
 export function rootReducer(state, { type, data }) {
