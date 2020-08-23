@@ -18,7 +18,6 @@ export class Formula extends ExcelComponent {
 
     this.$on('TABLE_CELL_SELECT', $cell => {
       this.$root.find('#formula').text($cell.data.value)
-      console.log('Formula -> init -> $cell.data.value', $cell.data.value)
     })
   }
 
