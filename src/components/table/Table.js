@@ -1,5 +1,6 @@
 import { ExcelComponent } from '@core/ExcelComponent';
 import { $ } from '@core/dom';
+import { parse } from '@core/parse'
 import * as actions from '@/redux/actions'
 import { defaultStyles } from '@/constants'
 
@@ -30,7 +31,10 @@ export class Table extends ExcelComponent {
     this.selectCell($cell)
 
     this.$on('FORMULA_INPUT', text => {
-      this.selection.current.text(text)
+      this.selection.current
+          .attr('data-value', text)
+          .text(parse(text))
+
       this.updateTextInStore(text)
     })
 

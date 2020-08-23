@@ -14,7 +14,7 @@ class Dom {
   }
 
   text(value) {
-    if (typeof value === 'string') {
+    if (typeof value !== 'undefined') {
       this.$el.textContent=value
       return this
     }
@@ -59,6 +59,15 @@ class Dom {
 
   closest(selector) {
     return $(this.$el.closest(selector))
+  }
+
+  attr(name, value) {
+    if (value) {
+      this.$el.setAttribute(name, value)
+      return this
+    }
+
+    return this.$el.getAttribute(name)
   }
 
   getCoords() {

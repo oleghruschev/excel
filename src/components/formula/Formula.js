@@ -17,16 +17,9 @@ export class Formula extends ExcelComponent {
     super.init()
 
     this.$on('TABLE_CELL_SELECT', $cell => {
-      this.$root.find('#formula').text($cell.text())
+      this.$root.find('#formula').text($cell.data.value)
+      console.log('Formula -> init -> $cell.data.value', $cell.data.value)
     })
-
-    // this.$on('TABLE_CELL_INPUT', $cell => {
-    //   this.$root.find('#formula').text($cell.text())
-    // })
-
-    // this.$subscribe(state => {
-    //   this.$root.find('#formula').text(state.currentText)
-    // })
   }
 
   toHTML() {
