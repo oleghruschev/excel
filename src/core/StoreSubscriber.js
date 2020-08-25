@@ -1,4 +1,4 @@
-import { isEqual } from './utils'
+import {isEqual} from '@core/utils'
 
 export class StoreSubscriber {
   constructor(store) {
@@ -26,7 +26,7 @@ export class StoreSubscriber {
     })
   }
 
-  unsubscibeFromStore(components) {
-    this.subscribeComponents.unsubscribe()
+  unsubscribeFromStore() {
+    this.sub.unsubscribe()
   }
 }

@@ -9,8 +9,6 @@ import {rootReducer} from '@/redux/rootReducer'
 import {storage, debounce} from '@/core/utils'
 import {defaultStyles} from '@/constants'
 
-const EXCEL_STATE = 'excelState'
-
 const DEFAULT_STATE = {
   title: 'Новая таблица',
   colState: {},
@@ -21,6 +19,11 @@ const DEFAULT_STATE = {
   stylesState: {}
 }
 
+function storageName(param) {
+  return `excel:${param}`
+}
+
+
 export class ExcelPage extends Page {
   getRoot() {
     const normalize = state => ({
@@ -28,6 +31,8 @@ export class ExcelPage extends Page {
       currentStyles: defaultStyles,
       currentText: ''
     })
+
+    const EXCEL_STATE = storageName(this.params)
 
     const initialState
       = storage(EXCEL_STATE) ? normalize(storage(EXCEL_STATE)) : DEFAULT_STATE

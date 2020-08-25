@@ -18,7 +18,7 @@ export class Emmiter {
     this.listeners[event] = this.listeners[event] || [];
     this.listeners[event].push(fn);
 
-    // unsubscibe
+    // unsubscribe
     return () => {
       this.listeners[event] = this.listeners[event].filter((listener) => {
         listener !== fn;

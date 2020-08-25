@@ -1,13 +1,13 @@
-import {DomListener} from './DomListener';
+import {DomListener} from '@core/DomListener'
 
 export class ExcelComponent extends DomListener {
   constructor($root, options = {}) {
     super($root, options.listeners)
     this.name = options.name
-    this.emiter = options.emiter
+    this.emitter = options.emitter
     this.subscribe = options.subscribe || []
     this.store = options.store
-    this.unsubscibes = []
+    this.unsubscribers = []
 
     this.prepare()
   }
@@ -23,13 +23,13 @@ export class ExcelComponent extends DomListener {
 
   // подписываемся на события event
   $on(event, fn) {
-    const unsub = this.emiter.subscribe(event, fn)
-    this.unsubscibes.push(unsub)
+    const unsub = this.emitter.subscribe(event, fn)
+    this.unsubscribers.push(unsub)
   }
 
   // уведомляем слушателей про события event
   $emit(event, ...args) {
-    this.emiter.emit(event, ...args)
+    this.emitter.emit(event, ...args)
   }
 
   $dispatch(action) {
@@ -60,7 +60,6 @@ export class ExcelComponent extends DomListener {
   // чистим слушателей
   destroy() {
     this.removeDOMListeners()
-    this.unsubscibes.forEach(unsub => unsub())
-    this.storeSub.unsubscribe()
+    this.unsubscribers.forEach(unsub => unsub())
   }
 }

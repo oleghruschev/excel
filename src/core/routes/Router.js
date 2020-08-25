@@ -32,7 +32,14 @@ export class Router {
 
     const currentRoute = ActiveRoute.path.split('/')[0]
 
-    const Page = this.routes[currentRoute]
+    let Page = null
+
+    if (currentRoute === '') {
+      Page = this.routes.dashboard
+    } else {
+      Page = this.routes[currentRoute]
+    }
+
 
     if (!Page) {
       return this.$placeholder.html('<h1>404 Not found</h1>')

@@ -7,7 +7,7 @@
 //       listeners.push(fn)
 
 //       return {
-//         unsubscibe() {
+//         unsubscribe() {
 //           listeners = listeners.filter(listener => listener !== fn)
 //         }
 //       }
@@ -33,8 +33,10 @@ export class CreateStore {
     this.listeners.push(fn)
 
     return {
-      unsubscibe() {
-        this.listeners = this.listeners.filter(listener => listener !== fn)
+      unsubscribe() {
+        if (Array.isArray(this.listeners)) {
+          this.listeners = this.listeners.filter(listener => listener !== fn)
+        }
       }
     }
   }
