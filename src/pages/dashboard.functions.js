@@ -7,18 +7,19 @@ function toHTML(key) {
   return `
     <li class="db__record">
       <a href="#excel/${id}">${model.title}</a>
-      <strong>${new Date(+id)}</strong>
+      <strong>
+        ${new Date(model.openedDate).toLocaleDateString()}
+        ${new Date(model.openedDate).toLocaleTimeString()}
+      </strong>
     </li>
   `
 }
 
-// excel:12312
 function getAllKeys() {
   const keys = []
 
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i)
-    console.log('getAllKeys -> key', key)
 
     if (!key.includes('excel')) {
       continue

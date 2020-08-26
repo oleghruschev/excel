@@ -15,8 +15,9 @@ const DEFAULT_STATE = {
   rowState: {},
   dataState: {},
   currentText: '',
+  stylesState: {},
   currentStyles: defaultStyles,
-  stylesState: {}
+  openedData: new Date().toJSON()
 }
 
 function storageName(param) {
