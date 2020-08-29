@@ -4,7 +4,7 @@ import {Header} from '@/components/header/Header';
 import {Toolbar} from '@/components/toolbar/Toolbar'
 import {Formula} from '@/components/formula/Formula'
 import {Table} from '@/components/table/Table'
-import {CreateStore} from '@/redux/createStore'
+import {createStore} from '@/redux/createStore'
 import {rootReducer} from '@/redux/rootReducer'
 import {storage, debounce} from '@/core/utils'
 import {defaultStyles} from '@/constants'
@@ -38,13 +38,12 @@ export class ExcelPage extends Page {
     const initialState
       = storage(EXCEL_STATE) ? normalize(storage(EXCEL_STATE)) : DEFAULT_STATE
 
-    const store = new CreateStore(
-        rootReducer,
-        initialState
-    )
+    const store = createStore(rootReducer, initialState)
 
     const stateListener = debounce(state => {
-      console.log('-App state-', state)
+      if (process.env.NODE_ENV === 'development') {
+        console.log('-App state-', state)
+      }
       storage(EXCEL_STATE, state)
     }, 300)
 
