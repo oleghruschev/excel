@@ -1,67 +1,44 @@
-import { Page } from '@core/Page'
-import {Excel} from '@/components/excel/Excel';
-import {Header} from '@/components/header/Header';
-import {Toolbar} from '@/components/toolbar/Toolbar'
-import {Formula} from '@/components/formula/Formula'
-import {Table} from '@/components/table/Table'
-import {createStore} from '@/redux/createStore'
-import {rootReducer} from '@/redux/rootReducer'
-import {storage, debounce} from '@/core/utils'
-import {defaultStyles} from '@/constants'
-
-const DEFAULT_STATE = {
-  title: 'Новая таблица',
-  colState: {},
-  rowState: {},
-  dataState: {},
-  currentText: '',
-  stylesState: {},
-  currentStyles: defaultStyles,
-  openedData: new Date().toJSON()
-}
-
-function storageName(param) {
-  return `excel:${param}`
-}
+import { Page } from '@core/page/Page';
+import { Excel } from '@/components/excel/Excel';
+import { Header } from '@/components/header/Header';
+import { Toolbar } from '@/components/toolbar/Toolbar';
+import { Formula } from '@/components/formula/Formula';
+import { Table } from '@/components/table/Table';
+import { createStore } from '@/redux/createStore';
+import { rootReducer } from '@/redux/rootReducer';
+import { StateProcessor } from '@core/page/StateProcessor'
+import { LocalStorageClient } from '@/shared/LocalStorageClient'
 
 
 export class ExcelPage extends Page {
-  getRoot() {
-    const normalize = state => ({
-      ...state,
-      currentStyles: defaultStyles,
-      currentText: ''
-    })
+  constructor(param) {
+    super(param);
 
-    const EXCEL_STATE = storageName(this.params)
+    this.storeSub = null;
+    this.processor = new StateProcessor(new LocalStorageClient(this.params))
+  }
 
-    const initialState
-      = storage(EXCEL_STATE) ? normalize(storage(EXCEL_STATE)) : DEFAULT_STATE
+  async getRoot() {
+    const initialState = await this.processor.get()
 
-    const store = createStore(rootReducer, initialState)
+    const store = createStore(rootReducer, initialState);
 
-    const stateListener = debounce(state => {
-      if (process.env.NODE_ENV === 'development') {
-        console.log('-App state-', state)
-      }
-      storage(EXCEL_STATE, state)
-    }, 300)
-
-    store.subscribe(stateListener)
+    this.storeSub = store.subscribe(this.processor.listen);
 
     this.excel = new Excel({
       components: [Header, Toolbar, Formula, Table],
-      store
-    })
+      store,
+    });
 
-    return this.excel.getRoot()
+    return this.excel.getRoot();
   }
 
   afterRender() {
-    this.excel.init()
+    this.excel.init();
   }
 
   destroy() {
-    this.excel.destroy()
+    this.excel.destroy();
+    this.storeSub.subscribe()
   }
 }
